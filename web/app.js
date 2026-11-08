@@ -1448,6 +1448,8 @@ async function pageSettings() {
     const styles = allStyles();
     view.innerHTML = `<div class="page narrow">
         <div class="page-head"><h1>Настройки</h1></div>
+        <div class="card donate-card" style="margin-bottom:18px"><div class="set-row" style="padding:0"><div class="t"><b>❤ Поддержать автора</b><span>Lumina бесплатна. Если она вам нравится, можно поддержать разработку донатом.</span></div>
+            <a class="btn primary" href="https://www.donationalerts.com/r/wompee" target="_blank" rel="noopener"><i class="ic ic-star ic-sm"></i>Задонатить</a></div></div>
         <div class="card" style="margin-bottom:18px"><div class="set-row" style="padding:0"><div class="t"><b>Язык интерфейса</b><span>Язык меню и кнопок. Ответы персонажей идут на том языке, на котором пишете вы.</span></div>
             <select class="input no-i18n" style="width:170px" id="langSel"><option value="ru" ${I18N.lang !== "en" ? "selected" : ""}>Русский</option><option value="en" ${I18N.lang === "en" ? "selected" : ""}>English</option></select></div></div>
         ${S.local ? `<h2 style="margin-top:0">📱 Играть с телефона</h2><div class="card" id="lan"></div>`
@@ -1533,9 +1535,6 @@ async function pageSettings() {
             <div class="set-row"><div class="t"><b>Закрыть программу</b><span>Полностью выключить Lumina и выгрузить модель. То же самое: правый клик по значку в трее → «Закрыть Lumina».</span></div>
                 <div class="row" style="gap:8px"><button class="btn sm" id="toTray">В трей</button><button class="btn sm danger" id="quitApp"><i class="ic ic-power ic-sm"></i>Закрыть</button></div></div>
         </div>` : ""}
-        <h2>Поддержать автора</h2>
-        <div class="card donate-card"><div class="set-row" style="padding:0"><div class="t"><b>❤ Поддержать автора</b><span>Lumina бесплатна. Если она вам нравится, можно поддержать разработку донатом.</span></div>
-            <a class="btn primary" href="https://www.donationalerts.com/r/wompee" target="_blank" rel="noopener"><i class="ic ic-star ic-sm"></i>Задонатить</a></div></div>
         <div class="muted small" style="text-align:center;margin-top:30px">Lumina 1.6 · всё хранится только на вашем компьютере</div>
     </div>`;
 

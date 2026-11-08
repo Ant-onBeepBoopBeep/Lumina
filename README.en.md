@@ -141,7 +141,7 @@ Lumina is free and open source. If you enjoy it, you can support development wit
 
 **👉 [donationalerts.com/r/wompee](https://www.donationalerts.com/r/wompee)**
 
-The same link is in the app: Settings → Support the author.
+The same link is in the app — the first card in Settings.
 
 ## License
 
