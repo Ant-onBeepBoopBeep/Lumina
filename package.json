@@ -1,0 +1,81 @@
+{
+  "name": "lumina",
+  "productName": "Lumina",
+  "version": "1.5.1",
+  "description": "Локальные ролевые чаты с ИИ-персонажами",
+  "author": "Lumina",
+  "license": "MIT",
+  "main": "electron/main.mjs",
+  "scripts": {
+    "start": "electron .",
+    "server": "node server/server.mjs",
+    "server:mock": "node server/server.mjs --mock",
+    "dist": "electron-builder --win nsis --x64"
+  },
+  "dependencies": {
+    "dictionary-ru": "^3.0.0",
+    "hunspell-asm": "^4.0.2",
+    "node-llama-cpp": "3.22.3",
+    "qrcode": "^1.5.4"
+  },
+  "devDependencies": {
+    "electron": "45.2.3",
+    "electron-builder": "26.18.0"
+  },
+  "build": {
+    "appId": "app.lumina.local",
+    "productName": "Lumina",
+    "copyright": "Lumina",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "electron/**",
+      "server/**",
+      "web/**",
+      "build/icon.png",
+      "build/icon.ico",
+      "package.json",
+      "!node_modules/@node-llama-cpp/linux-*/**",
+      "!node_modules/@node-llama-cpp/mac-*/**",
+      "!node_modules/@node-llama-cpp/win-arm64/**",
+      "!node_modules/@node-llama-cpp/win-x64-cuda/**",
+      "!node_modules/@node-llama-cpp/win-x64-cuda-ext/**",
+      "!node_modules/node-llama-cpp/llama/llama.cpp/**"
+    ],
+    "asar": true,
+    "asarUnpack": [
+      "node_modules/node-llama-cpp/**",
+      "node_modules/@node-llama-cpp/**"
+    ],
+    "npmRebuild": false,
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Lumina",
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico",
+      "installerLanguages": [
+        "ru_RU"
+      ],
+      "language": "1049",
+      "artifactName": "Lumina-Setup-${version}.exe",
+      "deleteAppDataOnUninstall": false
+    },
+    "publish": null
+  }
+}

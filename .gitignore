@@ -1,0 +1,13 @@
+# зависимости и сборка / dependencies and build output
+node_modules/
+release/
+dist/
+
+# ИИ-модели и данные пользователя / AI models and user data
+*.gguf
+data/
+
+# служебное / misc
+*.log
+.DS_Store
+Thumbs.db

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<meta name="theme-color" content="#0b0b12">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Lumina">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="manifest" href="/manifest.webmanifest">
+<title>Lumina</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="bg-glow"></div>
+<div id="app">
+  <aside class="sidebar">
+    <a class="logo" href="#/">
+      <img src="/icon.svg" alt="">
+      <span>Lumina</span>
+    </a>
+    <nav class="nav">
+      <a href="#/" data-nav="home"><i class="ic ic-grid"></i><span>Персонажи</span></a>
+      <a href="#/chats" data-nav="chats"><i class="ic ic-chat"></i><span>Чаты</span></a>
+      <a href="#/personas" data-nav="personas"><i class="ic ic-user"></i><span>Мои персоны</span></a>
+      <a href="#/lore" data-nav="lore"><i class="ic ic-quote"></i><span>Словарь</span></a>
+      <a href="#/model" data-nav="model"><i class="ic ic-chip"></i><span>Модель</span></a>
+      <a href="#/settings" data-nav="settings"><i class="ic ic-gear"></i><span>Настройки</span></a>
+    </nav>
+    <button class="sync-btn" data-sync title="Подтянуть изменения, сделанные на телефоне"><i class="ic ic-sync"></i><span>Синхронизировать</span></button>
+    <a class="engine-pill" href="#/model" id="enginePill"></a>
+  </aside>
+  <main id="view"></main>
+  <nav class="tabbar">
+    <a href="#/" data-nav="home"><i class="ic ic-grid"></i><span>Персонажи</span></a>
+    <a href="#/chats" data-nav="chats"><i class="ic ic-chat"></i><span>Чаты</span></a>
+    <a href="#/personas" data-nav="personas"><i class="ic ic-user"></i><span>Персоны</span></a>
+    <a href="#/model" data-nav="model"><i class="ic ic-chip"></i><span>Модель</span></a>
+    <a href="#/settings" data-nav="settings"><i class="ic ic-gear"></i><span>Ещё</span></a>
+  </nav>
+</div>
+<div id="modalRoot"></div>
+<div id="toasts"></div>
+<script src="/app.js"></script>
+</body>
+</html>
