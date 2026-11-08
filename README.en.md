@@ -2,13 +2,15 @@
 
 [Русский](README.md) · **English**
 
+[![Support the author](https://img.shields.io/badge/❤_Support_the_author-DonationAlerts-f57d07?style=for-the-badge)](https://www.donationalerts.com/r/wompee)
+
 Lumina is a Windows app for role-play chats with AI characters. The language model runs entirely on your own computer: no cloud, no subscriptions, no external moderation. You can also play from an iPhone through Safari over Wi‑Fi.
 
 ![Chatting with a character](docs/screenshots/desktop-chat.png)
 
 > The repository does not include AI model files (they weigh 5–15 GB). Download a `.gguf` model separately — see [Model](#model).
 >
-> The interface is in Russian; the screenshots show the Russian UI.
+> The interface is available in Russian and English (Settings → Interface language); the screenshots show the Russian UI.
 
 ## Features
 
@@ -66,10 +68,14 @@ Lumina is a Windows app for role-play chats with AI characters. The language mod
 |---|---|---|---|
 | ![](docs/screenshots/mobile-home.png) | ![](docs/screenshots/mobile-chat.png) | ![](docs/screenshots/mobile-model-switch.png) | ![](docs/screenshots/mobile-notifications.png) |
 
+### Interface language
+- Russian and English: Settings → Interface language. The choice is shared by the PC and the phone; the tray menu and Windows notifications switch too.
+- Chats, character cards and the system prompt are not translated — characters reply in the language you write in.
+
 ## Installation
 
 1. Download `Lumina-Setup-x.y.z.exe` from [Releases](../../releases) or build it yourself (see below). Windows SmartScreen may warn that the installer is unsigned: "More info" → "Run anyway".
-2. Download a `.gguf` model (see below). In the «Модель» (Model) section, click «Выбрать файл модели» (Choose model file), drag the file into the window, or drop it into the models folder.
+2. Download a `.gguf` model (see below). In the Model section, click “Choose model file”, drag the file into the window, or drop it into the models folder.
 3. Pick a character and start chatting.
 
 ### Model
@@ -87,7 +93,7 @@ For Russian, models based on Qwen, Gemma and Mistral Nemo/Small work best.
 
 ### Playing from an iPhone
 
-1. «Настройки» (Settings) → «Играть с телефона» (Play from phone) → enable Wi‑Fi access.
+1. Settings → Play from your phone → enable Wi‑Fi access.
 2. If Windows asks about the firewall, allow access on **private networks**.
 3. Point the iPhone camera at the QR code, or open the address in Safari and enter the PIN.
 4. In Safari: Share → Add to Home Screen.
@@ -120,6 +126,7 @@ server/prompt.mjs     prompt assembly from character, persona, style and reply l
 server/lore.mjs       lorebook: picking terms for the prompt and online lookup
 server/spell.mjs      offline spell-check (Hunspell + dictionary-ru)
 server/store.mjs      JSON storage, settings and their migrations
+web/i18n.js           English translation of the interface
 web/                  user interface (shared by PC and iPhone)
 docs/screenshots/     screenshots for the README
 ```
@@ -127,6 +134,14 @@ docs/screenshots/     screenshots for the README
 ## Built with
 
 [Electron](https://www.electronjs.org/) · [node-llama-cpp](https://node-llama-cpp.withcat.ai/) (llama.cpp) · [hunspell-asm](https://github.com/kwonoj/hunspell-asm) + [dictionary-ru](https://github.com/wooorm/dictionaries) · plain JavaScript UI, no framework.
+
+## Support the author
+
+Lumina is free and open source. If you enjoy it, you can support development with a donation:
+
+**👉 [donationalerts.com/r/wompee](https://www.donationalerts.com/r/wompee)**
+
+The same link is in the app: Settings → Support the author.
 
 ## License
 

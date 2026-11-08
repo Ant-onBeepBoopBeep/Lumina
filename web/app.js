@@ -44,7 +44,7 @@ function timeAgo(ts) {
     if (d < 3600) return Math.floor(d / 60) + " мин";
     if (d < 86400) return Math.floor(d / 3600) + " ч";
     if (d < 86400 * 7) return Math.floor(d / 86400) + " дн";
-    return new Date(ts).toLocaleDateString("ru-RU", {day: "numeric", month: "short"});
+    return new Date(ts).toLocaleDateString(I18N.lang === "en" ? "en-US" : "ru-RU", {day: "numeric", month: "short"});
 }
 function fmtSize(b) {
     if (b == null) return "";
@@ -167,6 +167,9 @@ async function loadState() {
     const st = await api("GET", "/api/state");
     S.bots = st.bots; S.personas = st.personas; S.settings = st.settings; S.engine = st.engine; S.local = st.local;
     S.metaRev = st.metaRev; S.chatRev = st.chatRev;
+    // язык интерфейса хранится на компьютере — общий для ПК и телефона
+    const want = S.settings.uiLang === "en" ? "en" : "ru";
+    if (want !== I18N.lang) { I18N.setLang(want); location.reload(); return; }
     renderPill();
 }
 
@@ -344,7 +347,7 @@ function chime() {
 function replyArrived(name) {
     chime();
     try { navigator.vibrate?.([60, 40, 60]); } catch {}
-    if (document.hidden) document.title = `💬 ${name} ответил(а) — Lumina`;
+    if (document.hidden) document.title = I18N.lang === "en" ? `💬 ${name} replied — Lumina` : `💬 ${name} ответил(а) — Lumina`;
 }
 document.addEventListener("visibilitychange", () => { if (!document.hidden) document.title = "Lumina"; });
 
@@ -1445,6 +1448,8 @@ async function pageSettings() {
     const styles = allStyles();
     view.innerHTML = `<div class="page narrow">
         <div class="page-head"><h1>Настройки</h1></div>
+        <div class="card" style="margin-bottom:18px"><div class="set-row" style="padding:0"><div class="t"><b>Язык интерфейса</b><span>Язык меню и кнопок. Ответы персонажей идут на том языке, на котором пишете вы.</span></div>
+            <select class="input no-i18n" style="width:170px" id="langSel"><option value="ru" ${I18N.lang !== "en" ? "selected" : ""}>Русский</option><option value="en" ${I18N.lang === "en" ? "selected" : ""}>English</option></select></div></div>
         ${S.local ? `<h2 style="margin-top:0">📱 Играть с телефона</h2><div class="card" id="lan"></div>`
                   : `<div class="card"><div class="set-row" style="padding-top:0"><div class="t"><b>Вы подключены к компьютеру по Wi‑Fi</b><span>Персонажи и чаты хранятся на компьютере и синхронизируются автоматически. Совет: в Safari «Поделиться» → «На экран Домой».</span></div>
                      <button class="btn sm" id="logout">Выйти</button></div>
@@ -1528,7 +1533,10 @@ async function pageSettings() {
             <div class="set-row"><div class="t"><b>Закрыть программу</b><span>Полностью выключить Lumina и выгрузить модель. То же самое: правый клик по значку в трее → «Закрыть Lumina».</span></div>
                 <div class="row" style="gap:8px"><button class="btn sm" id="toTray">В трей</button><button class="btn sm danger" id="quitApp"><i class="ic ic-power ic-sm"></i>Закрыть</button></div></div>
         </div>` : ""}
-        <div class="muted small" style="text-align:center;margin-top:30px">Lumina 1.5 · всё хранится только на вашем компьютере</div>
+        <h2>Поддержать автора</h2>
+        <div class="card donate-card"><div class="set-row" style="padding:0"><div class="t"><b>❤ Поддержать автора</b><span>Lumina бесплатна. Если она вам нравится, можно поддержать разработку донатом.</span></div>
+            <a class="btn primary" href="https://www.donationalerts.com/r/wompee" target="_blank" rel="noopener"><i class="ic ic-star ic-sm"></i>Задонатить</a></div></div>
+        <div class="muted small" style="text-align:center;margin-top:30px">Lumina 1.6 · всё хранится только на вашем компьютере</div>
     </div>`;
 
     const save = debounce(async (patch) => {
@@ -1653,6 +1661,10 @@ async function pageSettings() {
     };
     if ($("#toTray")) $("#toTray").onclick = () => D.hideToTray();
     $$("[data-b]").forEach(el => el.onchange = () => queue(el.dataset.b, el.checked));
+    $("#langSel").onchange = async (e) => {
+        try { await api("PUT", "/api/settings", {uiLang: e.target.value}); } catch (err) { return toast(err.message, {error: true}); }
+        I18N.setLang(e.target.value); location.reload();
+    };
     // --- уведомления ---
     $("#pSound").onchange = (e) => { setPref("sound", e.target.checked); if (e.target.checked) chime(); };
     const drawNtfy = () => {

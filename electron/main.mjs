@@ -13,6 +13,8 @@ let tray = null;
 let srv = null;
 let quitting = false;
 let balloonShown = false;
+// язык трея и системных окон — тот же, что выбран в настройках интерфейса
+const L = (ru, en) => srv?.store.settings.uiLang === "en" ? en : ru;
 
 if (!app.requestSingleInstanceLock()) {
     app.quit();
@@ -29,8 +31,8 @@ async function boot() {
 
     ipcMain.handle("pick-model", async () => {
         const r = await dialog.showOpenDialog(win, {
-            title: "Выберите файл ИИ-модели",
-            filters: [{name: "Модель GGUF", extensions: ["gguf"]}],
+            title: L("Выберите файл ИИ-модели", "Choose an AI model file"),
+            filters: [{name: L("Модель GGUF", "GGUF model"), extensions: ["gguf"]}],
             properties: ["openFile"]
         });
         if (r.canceled || !r.filePaths[0]) return null;
@@ -74,8 +76,8 @@ function createWindow() {
             if (!balloonShown) {
                 balloonShown = true;
                 tray.displayBalloon?.({
-                    title: "Lumina работает в фоне",
-                    content: "Телефон остаётся подключённым. Чтобы закрыть программу: правый клик по значку в трее → «Закрыть Lumina»."
+                    title: L("Lumina работает в фоне", "Lumina is running in the background"),
+                    content: L("Телефон остаётся подключённым. Чтобы закрыть программу: правый клик по значку в трее → «Закрыть Lumina».", "The phone stays connected. To quit, right-click the tray icon → “Quit Lumina”.")
                 });
             }
         }
@@ -87,7 +89,7 @@ function createWindow() {
 function desktopNotify({chatId, title, preview}) {
     if (!srv?.store.settings.desktopNotify || !Notification.isSupported()) return;
     if (win && win.isVisible() && win.isFocused()) return;
-    const n = new Notification({title, body: preview || "Новое сообщение", icon: ICON, silent: false});
+    const n = new Notification({title, body: preview || L("Новое сообщение", "New message"), icon: ICON, silent: false});
     n.on("click", () => {
         showWindow();
         win?.webContents.executeJavaScript(`location.hash = ${JSON.stringify("#/chat/" + chatId)}`).catch(() => {});
@@ -118,14 +120,14 @@ async function quitApp() {
 function trayMenu() {
     const s = srv?.store.settings || {};
     return Menu.buildFromTemplate([
-        {label: "Открыть Lumina", click: showWindow},
+        {label: L("Открыть Lumina", "Open Lumina"), click: showWindow},
         {type: "separator"},
         {
-            label: "Сворачивать в трей при закрытии окна", type: "checkbox", checked: !!s.closeToTray,
+            label: L("Сворачивать в трей при закрытии окна", "Minimize to tray on close"), type: "checkbox", checked: !!s.closeToTray,
             click: (item) => { srv.store.settings.closeToTray = item.checked; srv.store.saveSettings(); }
         },
         {type: "separator"},
-        {label: "Закрыть Lumina", click: quitApp}
+        {label: L("Закрыть Lumina", "Quit Lumina"), click: quitApp}
     ]);
 }
 
@@ -135,7 +137,7 @@ function createTray() {
         let img = fs.existsSync(ico) ? nativeImage.createFromPath(ico) : nativeImage.createFromPath(ICON);
         if (img.isEmpty()) img = nativeImage.createFromPath(ICON);
         tray = new Tray(img.resize({width: 16, height: 16}));
-        tray.setToolTip("Lumina — правый клик: меню и выход");
+        tray.setToolTip(L("Lumina — правый клик: меню и выход", "Lumina — right-click for menu and quit"));
         // меню собираем заново при каждом открытии, чтобы галочка была актуальной
         tray.on("right-click", () => tray.popUpContextMenu(trayMenu()));
         tray.on("click", showWindow);

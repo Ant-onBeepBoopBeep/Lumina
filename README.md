@@ -2,6 +2,8 @@
 
 **Русский** · [English](README.en.md)
 
+[![Поддержать автора](https://img.shields.io/badge/❤_Поддержать_автора-DonationAlerts-f57d07?style=for-the-badge)](https://www.donationalerts.com/r/wompee)
+
 Lumina — программа для Windows для ролевых чатов с ИИ-персонажами. Нейросеть работает прямо на вашем компьютере: без облака, подписок и внешней модерации. Играть можно и с iPhone — через Safari по Wi‑Fi.
 
 ![Чат с персонажем](docs/screenshots/desktop-chat.png)
@@ -64,6 +66,10 @@ Lumina — программа для Windows для ролевых чатов с
 |---|---|---|---|
 | ![](docs/screenshots/mobile-home.png) | ![](docs/screenshots/mobile-chat.png) | ![](docs/screenshots/mobile-model-switch.png) | ![](docs/screenshots/mobile-notifications.png) |
 
+### Язык интерфейса
+- Русский и английский: «Настройки» → «Язык интерфейса». Выбор общий для ПК и телефона; трей и уведомления Windows тоже переключаются.
+- Переписка, карточки персонажей и системный промпт не переводятся — персонажи отвечают на том языке, на котором пишете вы.
+
 ## Установка
 
 1. Скачайте установщик `Lumina-Setup-x.y.z.exe` из [Releases](../../releases) или соберите его сами (см. ниже). Windows SmartScreen может предупредить, что установщик не подписан: «Подробнее» → «Выполнить в любом случае».
@@ -118,6 +124,7 @@ server/prompt.mjs     сборка промпта из персонажа, пе�
 server/lore.mjs       словарь: подбор терминов для промпта и поиск значений в интернете
 server/spell.mjs      офлайн-проверка орфографии (Hunspell + dictionary-ru)
 server/store.mjs      хранение данных в JSON, настройки и их миграции
+web/i18n.js           английский перевод интерфейса
 web/                  интерфейс (одинаковый для ПК и iPhone)
 docs/screenshots/     скриншоты для README
 ```
@@ -125,6 +132,14 @@ docs/screenshots/     скриншоты для README
 ## Технологии
 
 [Electron](https://www.electronjs.org/) · [node-llama-cpp](https://node-llama-cpp.withcat.ai/) (llama.cpp) · [hunspell-asm](https://github.com/kwonoj/hunspell-asm) + [dictionary-ru](https://github.com/wooorm/dictionaries) · интерфейс на чистом JavaScript без фреймворков.
+
+## Поддержать автора
+
+Lumina бесплатна и с открытым кодом. Если программа вам нравится, можно поддержать разработку донатом:
+
+**👉 [donationalerts.com/r/wompee](https://www.donationalerts.com/r/wompee)**
+
+Та же ссылка есть в самой программе: «Настройки» → «Поддержать автора».
 
 ## Лицензия
 

@@ -73,6 +73,7 @@ export const DEFAULT_SETTINGS = {
     systemTemplate: DEFAULT_SYSTEM_TEMPLATE,
     defaultPersonaId: null,
     closeToTray: true,
+    uiLang: "ru",              // язык интерфейса: ru | en
     samplerPreset: "balanced",  // stable | balanced | creative | custom
     dryStrength: 0.8,           // DRY: гасит повторы целых фраз, не ломая слова (0 — выкл)
     spellCheck: true,           // офлайн-проверка орфографии словарём перед отправкой

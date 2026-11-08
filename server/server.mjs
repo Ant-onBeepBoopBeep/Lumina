@@ -400,10 +400,11 @@ export async function startServer({dataDir, staticDir = path.join(__dirname, "..
     }
     function notifyReply(bot, chat, text) {
         const preview = String(text || "").replace(/[*()]/g, "").replace(/\s+/g, " ").trim().slice(0, 140);
-        const title = `${bot.name} ответил(а)`;
+        const en = store.settings.uiLang === "en";
+        const title = en ? `${bot.name} replied` : `${bot.name} ответил(а)`;
         try { onReply?.({chatId: chat.id, botName: bot.name, title, preview}); } catch {}
         if (store.settings.ntfyEnabled && store.settings.ntfyTopic) {
-            sendNtfy({title, message: store.settings.ntfyWithText ? preview : "Новое сообщение в чате Lumina", click: chatLink(chat.id)})
+            sendNtfy({title, message: store.settings.ntfyWithText ? preview : (en ? "New message in a Lumina chat" : "Новое сообщение в чате Lumina"), click: chatLink(chat.id)})
                 .catch(e => log("ntfy error", e?.message || e));
         }
     }
@@ -465,7 +466,7 @@ export async function startServer({dataDir, staticDir = path.join(__dirname, "..
             const body = await readBody(req);
             const allowed = ["contextSize", "gpu", "temperature", "minP", "topP", "topK", "repeatPenalty", "maxTokens", "systemTemplate", "defaultPersonaId", "autoLoadModel", "closeToTray",
                 "responseLength", "style", "minChars", "memoryMessages", "showThoughts", "customStyles",
-                "replyTimeLimit", "replyReview", "desktopNotify", "ntfyEnabled", "ntfyServer", "ntfyWithText", "dryStrength", "spellCheck"];
+                "replyTimeLimit", "replyReview", "desktopNotify", "ntfyEnabled", "ntfyServer", "ntfyWithText", "dryStrength", "spellCheck", "uiLang"];
             const wasGpu = store.settings.gpu, wasCtx = store.settings.contextSize;
             for (const k of allowed) if (k in body) store.settings[k] = body[k];
             const st = store.settings;
@@ -476,6 +477,7 @@ export async function startServer({dataDir, staticDir = path.join(__dirname, "..
             st.repeatPenalty = Math.max(1, Math.min(1.5, +st.repeatPenalty || 1));
             st.dryStrength = Math.max(0, Math.min(1, +st.dryStrength || 0));
             st.spellCheck = st.spellCheck !== false;
+            st.uiLang = st.uiLang === "en" ? "en" : "ru";
             st.minChars = Math.max(MIN_CHARS_FLOOR, Math.min(5000, parseInt(st.minChars) || MIN_CHARS_FLOOR));
             st.memoryMessages = Math.max(0, Math.min(1000, parseInt(st.memoryMessages) || 0));
             st.contextSize = Math.max(2048, Math.min(65536, parseInt(st.contextSize) || 8192));
@@ -544,7 +546,7 @@ export async function startServer({dataDir, staticDir = path.join(__dirname, "..
         if (p === "/api/notify/test" && m === "POST") {
             try {
                 const base = chatLink("");
-                await sendNtfy({title: "Lumina", message: "Проверка: уведомления об ответах работают ✨", click: base ? base.replace(/#\/chat\/$/, "") : null});
+                await sendNtfy({title: "Lumina", message: store.settings.uiLang === "en" ? "Test: reply notifications work ✨" : "Проверка: уведомления об ответах работают ✨", click: base ? base.replace(/#\/chat\/$/, "") : null});
                 return send(res, 200, {ok: true});
             } catch (e) { return send(res, 502, {error: "Не удалось отправить: " + (e?.message || e) + ". Нужен интернет на компьютере."}); }
         }

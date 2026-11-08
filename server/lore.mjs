@@ -38,7 +38,7 @@ export function loreBlock(entries) {
 }
 
 // ---------------- поиск значения в интернете ----------------
-const UA = "Lumina/1.5 (local roleplay app)";
+const UA = "Lumina/1.6 (local roleplay app)";
 async function getJson(url, tries = 2) {
     for (let i = 0; ; i++) {
         try {
